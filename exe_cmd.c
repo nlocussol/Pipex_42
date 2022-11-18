@@ -6,7 +6,7 @@
 /*   By: nlocusso <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 18:02:02 by nlocusso          #+#    #+#             */
-/*   Updated: 2022/11/17 19:46:47 by nlocusso         ###   ########.fr       */
+/*   Updated: 2022/11/18 16:12:46 by nlocusso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,22 +37,43 @@ void	exe_cmd(t_arg *arg, char **envp)
 	int	cnt;
 	int	status;
 	int	i;
+	int	fd[2];
 
-	(void)envp;
 	i = 0;
 	cnt = 0;
+	if (pipe(fd) == -1)
+		print_error(3, arg);
 	while (cnt != arg->nb_exe)
 	{
 		cmd_path(arg, &arg->nb_cmd[cnt]);
 		if (arg->nb_cmd[cnt].path != NULL)
 		{
 			arg->pid[i] = fork();
-			if (arg->pid[i] == 0)
+			if (arg->pid[i] < 0)
+				print_error(3, arg);
+			else if (arg->pid[i] == 0)
 			{
+				if (cnt == 0)
+				{
+					dup2(arg->fd1, 0);
+					dup2(fd[1], 1);
+				}
+				else if (cnt == arg->nb_exe - 1)
+				{
+					dup2(fd[0], 0);
+					dup2(arg->fd2, 1);
+				}
+				else
+				{
+					dup2(fd[0], 0);
+					dup2(fd[1], 1);
+				}
+				close(fd[0]);
+				close(fd[1]);
 				execve(arg->nb_cmd[cnt].path, arg->nb_cmd[cnt].cmd, envp);
 				exit(EXIT_FAILURE);
 			}
-			usleep(10000);
+			//usleep(10000);
 		}
 		else
 			arg->pid[i] = -1;
@@ -60,6 +81,8 @@ void	exe_cmd(t_arg *arg, char **envp)
 		cnt++;
 	}
 	cnt = 0;
+	close(fd[0]);
+	close(fd[1]);
 	while (cnt != i)
 	{
 		if (arg->pid[cnt] != -1)

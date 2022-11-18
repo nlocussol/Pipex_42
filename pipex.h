@@ -6,7 +6,7 @@
 /*   By: nlocusso <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 11:21:31 by nlocusso          #+#    #+#             */
-/*   Updated: 2022/11/17 19:24:17 by nlocusso         ###   ########.fr       */
+/*   Updated: 2022/11/18 15:32:15 by nlocusso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ typedef struct s_arg
 {
 	int		nb_exe;
 	int		path;
+	int		fd1;
+	int		fd2;
 	char	*first;
 	char	*last;
 	char	**path_env;
