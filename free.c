@@ -6,7 +6,7 @@
 /*   By: nlocusso <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 17:20:39 by nlocusso          #+#    #+#             */
-/*   Updated: 2022/11/17 19:08:50 by nlocusso         ###   ########.fr       */
+/*   Updated: 2022/11/21 11:01:56 by nlocusso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ void	ft_free(t_arg *arg)
 		cnt++;
 	}
 	free(arg->pid);
+	free(arg->fd);
 	free_split(arg->path_env);
 	free(arg->nb_cmd);
 	free(arg);

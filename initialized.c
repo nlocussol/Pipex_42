@@ -6,7 +6,7 @@
 /*   By: nlocusso <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 15:14:57 by nlocusso          #+#    #+#             */
-/*   Updated: 2022/11/18 15:42:32 by nlocusso         ###   ########.fr       */
+/*   Updated: 2022/11/21 20:37:23 by nlocusso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ void	initialized_f(t_arg *arg, int argc, char **argv)
 	arg->nb_exe = argc - 3;
 	arg->first = argv[1];
 	arg->last = argv[argc - 1];
-	arg->fd1 = open(argv[1], O_RDONLY);
-	arg->fd2 = 0;
 	arg->pid = malloc(arg->nb_exe * sizeof(int));
 	arg->nb_cmd = malloc((argc - 2) * sizeof(t_cmd));
+	arg->fd = malloc(2 * sizeof(int));
+	arg->fd[0] = open(argv[1], O_RDONLY);
 }
