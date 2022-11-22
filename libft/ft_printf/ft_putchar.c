@@ -6,16 +6,16 @@
 /*   By: nlocusso <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 15:33:41 by nlocusso          #+#    #+#             */
-/*   Updated: 2022/10/04 19:34:28 by nlocusso         ###   ########.fr       */
+/*   Updated: 2022/11/22 11:46:16 by nlocusso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 
-int	ft_putchar(char c, int cnt)
+int	ft_putchar(int fd, char c, int cnt)
 {
 	c = c % 256;
-	write(1, &c, 1);
+	write(fd, &c, 1);
 	cnt++;
 	return (cnt);
 }

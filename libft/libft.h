@@ -6,7 +6,7 @@
 /*   By: nlocusso <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 16:44:01 by nlocusso          #+#    #+#             */
-/*   Updated: 2022/11/14 15:03:48 by nlocusso         ###   ########.fr       */
+/*   Updated: 2022/11/22 11:56:18 by nlocusso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char			*get_next_line(int fd);
 int				ft_strcmp(char *s1, char *s2);
 int				ft_whitespace(int c);
 void			ft_sort_int_tab(int *tab, int size);
-int				ft_printf(const char *fmt, ...);
+int				ft_dprintf(int fd, const char *fmt, ...);
 long int		ft_iterative_power(long int nb, int power);
 void			ft_putstr(char *str);
 void			ft_putchar(char c);

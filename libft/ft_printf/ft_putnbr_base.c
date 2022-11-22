@@ -6,7 +6,7 @@
 /*   By: nlocusso <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 10:46:40 by nlocusso          #+#    #+#             */
-/*   Updated: 2022/10/03 21:22:02 by nlocusso         ###   ########.fr       */
+/*   Updated: 2022/11/22 11:57:49 by nlocusso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,19 +23,19 @@ static int	len_base(char *base)
 	return (i);
 }
 
-static int	ft_putnbr_base_bis(long int nb, char *base, int cnt)
+static int	ft_putnbr_base_bis(int fd, long int nb, char *base, int cnt)
 {
 	if (nb < 0)
 		nb = ft_iterative_power(len_base(base), 8) + nb;
 	if (nb >= 0 && nb < len_base(base))
 	{
 		cnt++;
-		write(1, &base[nb % len_base(base)], 1);
+		write(fd, &base[nb % len_base(base)], 1);
 	}
 	if (nb > len_base(base) - 1)
 	{
-		cnt = ft_putnbr_base_bis(nb / len_base(base), base, cnt);
-		cnt = ft_putnbr_base_bis(nb % len_base(base), base, cnt);
+		cnt = ft_putnbr_base_bis(fd, nb / len_base(base), base, cnt);
+		cnt = ft_putnbr_base_bis(fd, nb % len_base(base), base, cnt);
 	}
 	return (cnt);
 }
@@ -64,12 +64,12 @@ static int	conditions(unsigned char *base)
 	return (1);
 }
 
-int	ft_putnbr_base(int nbr, char *base, int cnt)
+int	ft_put_base(int fd, int nbr, char *base, int cnt)
 {
 	long int	nbr_long;
 
 	nbr_long = nbr;
 	if (conditions((unsigned char *)base) == 1)
-		cnt = ft_putnbr_base_bis(nbr_long, base, cnt);
+		cnt = ft_putnbr_base_bis(fd, nbr_long, base, cnt);
 	return (cnt);
 }

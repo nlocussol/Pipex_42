@@ -11,12 +11,17 @@
 
 #include "pipex.h"
 
+void	check_fd(int fd)
+{
+	if (fd != -1 && fd)
+		close(fd);
+}
 void	ft_close(int fd[2][2])
 {
-	close(fd[0][0]);
-	close(fd[0][1]);
-	close(fd[1][0]);
-	close(fd[1][1]);
+	check_fd(fd[0][0]);
+	check_fd(fd[0][1]);
+	check_fd(fd[1][0]);
+	check_fd(fd[1][1]);
 }
 
 void	cmd_path(t_arg *arg, t_cmd *cmd)
@@ -72,9 +77,13 @@ void	exe_cmd(t_arg *arg, char **envp)
 				if (cnt == 0)
 				{
 					if (arg->fd[0] == -1)
+					{
+						ft_close(fd);
+						ft_free(arg);
 						exit(EXIT_FAILURE);
-					dup2(arg->fd[0], 0);
+					}
 					dup2(fd[0][1], 1);
+					dup2(arg->fd[0], 0);
 				}
 				else if (cnt == arg->nb_exe - 1)
 				{
@@ -104,6 +113,6 @@ void	exe_cmd(t_arg *arg, char **envp)
 			waitpid(arg->pid[cnt], &status, 0);
 		cnt++;
 	}
-	close(arg->fd[0]);
-	close(arg->fd[1]);
+	check_fd(arg->fd[0]);
+	check_fd(arg->fd[1]);
 }

@@ -6,7 +6,7 @@
 /*   By: nlocusso <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 11:21:31 by nlocusso          #+#    #+#             */
-/*   Updated: 2022/11/21 20:22:35 by nlocusso         ###   ########.fr       */
+/*   Updated: 2022/11/22 14:29:02 by nlocusso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ typedef struct s_arg
 	char	**path_env;
 	int		*pid;
 	int		*fd;
+	int		here_doc;
+	char	*limiter;
 	t_cmd	*nb_cmd;
 }			t_arg;
 
