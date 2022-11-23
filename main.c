@@ -6,7 +6,7 @@
 /*   By: nlocusso <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 11:19:52 by nlocusso          #+#    #+#             */
-/*   Updated: 2022/11/22 14:37:31 by nlocusso         ###   ########.fr       */
+/*   Updated: 2022/11/23 10:53:03 by nlocusso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ void	print_error(int error_type, t_arg *arg, char *cmd)
 int	main(int argc, char *argv[], char *envp[])
 {
 	t_arg	*arg;
-	char	*line;
 
 	if (argc < 5 && ft_strcmp(argv[1], "here_doc"))
 	{
@@ -47,6 +46,7 @@ int	main(int argc, char *argv[], char *envp[])
 		exit(EXIT_FAILURE);
 	}
 	arg = malloc(sizeof(t_arg));
+	arg->here_doc = 0;
 	if (!ft_strcmp(argv[1], "here_doc"))
 		arg->here_doc = 1;
 	else if (arg->here_doc == 1 && argc <= 5)
@@ -59,18 +59,6 @@ int	main(int argc, char *argv[], char *envp[])
 	fill_cmd(arg, argv);
 	split_path(arg, envp);
 	exe_cmd(arg, envp);
-	if (arg->here_doc == 1)
-	{
-		line = get_next_line(0);
-		line[ft_strlen(line) - 1] = 0;
-		while (ft_strcmp(line, arg->limiter))
-		{
-			free(line);
-			line = get_next_line(0);
-			line[ft_strlen(line) - 1] = 0;
-		}
-		free(line);
-	}
 	ft_free(arg);
 	return (0);
 }

@@ -46,10 +46,11 @@ void	cmd_path(t_arg *arg, t_cmd *cmd)
 
 void	exe_cmd(t_arg *arg, char **envp)
 {
-	int	cnt;
-	int	status;
-	int	i;
-	int	fd[2][2];
+	int		cnt;
+	int		status;
+	int		i;
+	int		fd[2][2];
+	char	*line;
 
 	i = 0;
 	cnt = 0;
@@ -57,6 +58,20 @@ void	exe_cmd(t_arg *arg, char **envp)
 		print_error(3, arg, NULL);
 	if (pipe(fd[1]) == -1)
 		print_error(3, arg, NULL);
+	if (arg->here_doc == 1)
+	{
+		line = get_next_line(0);
+		ft_dprintf(fd[1][1], "%s", line);
+		line[ft_strlen(line) - 1] = 0;
+		while (ft_strcmp(line, arg->limiter))
+		{
+			free(line);
+			line = get_next_line(0);
+			ft_dprintf(fd[1][1], "%s", line);
+			line[ft_strlen(line) - 1] = 0;
+		}
+		free(line);
+	}
 	while (cnt != arg->nb_exe)
 	{
 		if (cnt >= 2)
@@ -74,7 +89,7 @@ void	exe_cmd(t_arg *arg, char **envp)
 				print_error(3, arg, NULL);
 			else if (arg->pid[i] == 0)
 			{
-				if (cnt == 0)
+				if (cnt == 0 && arg->here_doc != 1)
 				{
 					if (arg->fd[0] == -1)
 					{
