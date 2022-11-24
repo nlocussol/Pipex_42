@@ -6,11 +6,11 @@
 #    By: nlocusso <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/26 17:13:34 by nlocusso          #+#    #+#              #
-#    Updated: 2022/11/17 18:02:22 by nlocusso         ###   ########.fr        #
+#    Updated: 2022/11/24 14:07:41 by nlocusso         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRCS		= main.c check_files.c initialized.c free.c pars_arg.c exe_cmd.c
+SRCS		= main.c check_files.c initialized.c free.c pars_arg.c exe_cmd.c utils.c
 OBJS		= ${SRCS:.c=.o}
 NAME		= pipex
 CC			= clang -g -O0
@@ -22,6 +22,10 @@ all :        ${NAME}
 			${CC} ${CFLAGS} -c $< -o ${<:.c=.o}
 	
 ${NAME}:	${OBJS}
+			make -C libft
+			${CC} ${CFLAGS} -o ${NAME} ${OBJS} -Llibft -lft -Llibft/ft_printf -lftprintf
+
+bonus :		${OBJS} 
 			make -C libft
 			${CC} ${CFLAGS} -o ${NAME} ${OBJS} -Llibft -lft -Llibft/ft_printf -lftprintf
 

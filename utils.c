@@ -1,26 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_files.c                                      :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nlocusso <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/17 14:18:16 by nlocusso          #+#    #+#             */
-/*   Updated: 2022/11/24 18:27:42 by nlocusso         ###   ########.fr       */
+/*   Created: 2022/11/23 11:30:55 by nlocusso          #+#    #+#             */
+/*   Updated: 2022/11/23 11:31:30 by nlocusso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	access_file(t_arg *arg)
+void	check_fd(int fd)
 {
-	if ((access(arg->first, R_OK) == -1 || arg->fd[0] == -1)
-		&& arg->here_doc != 1)
-		print_error(1, arg, NULL);
-	if (arg->here_doc == 1)
-		arg->fd[1] = open(arg->last, O_WRONLY | O_APPEND | O_CREAT, 0644);
-	else if (arg->here_doc != 1)
-		arg->fd[1] = open(arg->last, O_WRONLY | O_TRUNC | O_CREAT, 0644);
-	if (access(arg->last, W_OK) == -1)
-		print_error(4, arg, NULL);
+	if (fd != -1 && fd)
+		close(fd);
+}
+
+void	ft_close(int fd[2][2])
+{
+	check_fd(fd[0][0]);
+	check_fd(fd[0][1]);
+	check_fd(fd[1][0]);
+	check_fd(fd[1][1]);
 }

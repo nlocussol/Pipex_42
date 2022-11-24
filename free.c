@@ -6,16 +6,16 @@
 /*   By: nlocusso <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 17:20:39 by nlocusso          #+#    #+#             */
-/*   Updated: 2022/11/23 11:09:00 by nlocusso         ###   ########.fr       */
+/*   Updated: 2022/11/24 11:48:23 by nlocusso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	check_free(void	*ptr)
+void	check_free(void *ptr)
 {
-	if (ptr != NULL)
-		free(ptr);
+	free(ptr);
+	ptr = NULL;
 }
 
 void	free_split(char	**str)
@@ -29,6 +29,14 @@ void	free_split(char	**str)
 		i++;
 	}
 	check_free(str);
+}
+
+void	ft_free_arg(t_arg *arg)
+{
+	check_free(arg->fd);
+	check_free(arg->pid);
+	check_free(arg->nb_cmd);
+	check_free(arg);
 }
 
 void	ft_free(t_arg *arg)

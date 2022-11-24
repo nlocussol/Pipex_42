@@ -6,18 +6,22 @@
 /*   By: nlocusso <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 15:14:57 by nlocusso          #+#    #+#             */
-/*   Updated: 2022/11/22 17:34:59 by nlocusso         ###   ########.fr       */
+/*   Updated: 2022/11/24 18:13:48 by nlocusso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	initialized_f(t_arg *arg, int argc, char **argv)
+void	initialized_f(t_arg *arg, int argc, char **argv, char **env)
 {
 	arg->path = 0;
 	arg->first = argv[1];
 	arg->last = argv[argc - 1];
 	arg->fd = malloc(2 * sizeof(int));
+	arg->env = env;
+	arg->exit = 0;
+	if (arg->env[0] == NULL || arg->env[0][0] == '\0')
+		arg->exit = 127;
 	if (arg->here_doc == 1)
 	{
 		arg->nb_exe = argc - 4;
