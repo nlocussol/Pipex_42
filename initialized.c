@@ -6,7 +6,7 @@
 /*   By: nlocusso <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 15:14:57 by nlocusso          #+#    #+#             */
-/*   Updated: 2022/11/24 18:13:48 by nlocusso         ###   ########.fr       */
+/*   Updated: 2022/11/25 13:53:27 by nlocusso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,40 @@ void	initialized_f(t_arg *arg, int argc, char **argv, char **env)
 	{
 		arg->nb_exe = argc - 4;
 		arg->limiter = argv[2];
-		arg->pid = malloc(arg->nb_exe * sizeof(int));
-		arg->nb_cmd = malloc((argc - 2) * sizeof(t_cmd));
+		arg->pid = ft_calloc(arg->nb_exe, sizeof(int));
+		arg->nb_cmd = ft_calloc(argc - 2, sizeof(t_cmd));
 		arg->fd[0] = 0;
 	}
 	else
 	{
 		arg->nb_exe = argc - 3;
-		arg->pid = malloc(arg->nb_exe * sizeof(int));
-		arg->nb_cmd = malloc((argc - 2) * sizeof(t_cmd));
+		arg->pid = ft_calloc(arg->nb_exe, sizeof(int));
+		arg->nb_cmd = ft_calloc(argc - 2, sizeof(t_cmd));
 		arg->fd[0] = open(argv[1], O_RDONLY);
 	}
+}
+
+void	initialized_pipe(t_arg *arg)
+{
+	int		i;
+	int		fd[2][2];
+	int		here_pipe[2];
+
+	i = 0;
+	if (arg->here_doc == 1)
+	{
+		if (pipe(here_pipe) == -1)
+			print_error(3, arg, NULL);
+	}
+	else
+	{
+		here_pipe[0] = 0;
+		here_pipe[1] = 0;
+	}
+	if (pipe(fd[0]) == -1)
+		print_error(3, arg, NULL);
+	if (pipe(fd[1]) == -1)
+		print_error(3, arg, NULL);
+	here_doc(arg, here_pipe);
+	exe_cmd(arg, fd, here_pipe);
 }

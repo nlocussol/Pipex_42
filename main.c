@@ -6,7 +6,7 @@
 /*   By: nlocusso <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 11:19:52 by nlocusso          #+#    #+#             */
-/*   Updated: 2022/11/24 16:14:11 by nlocusso         ###   ########.fr       */
+/*   Updated: 2022/11/25 13:57:21 by nlocusso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,11 @@ void	print_error(int error_type, t_arg *arg, char *cmd)
 		perror("bash");
 	if (error_type == 4)
 	{
-		arg->fd[0] = -1;
 		join = ft_strjoin("bash: ", arg->last);
 		perror(join);
 		free(join);
-		ft_free_arg(arg);
-		exit(EXIT_FAILURE);
+		arg->exit = 1;
+		return ;
 	}
 }
 
@@ -80,7 +79,7 @@ int	main(int argc, char *argv[], char *env[])
 	access_file(arg);
 	fill_cmd(arg, argv);
 	split_path(arg, env);
-	exe_cmd(arg);
+	initialized_pipe(arg);
 	exit_code = arg->exit;
 	ft_free(arg);
 	return (exit_code);

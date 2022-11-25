@@ -6,7 +6,7 @@
 /*   By: nlocusso <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 11:21:31 by nlocusso          #+#    #+#             */
-/*   Updated: 2022/11/25 11:03:02 by nlocusso         ###   ########.fr       */
+/*   Updated: 2022/11/25 14:00:53 by nlocusso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,14 @@ typedef struct s_arg
 	t_cmd	*nb_cmd;
 }			t_arg;
 
+void	put_error(t_arg *arg, t_cmd *cmd, int nb_cmd);
+void	exe_cmd(t_arg *arg, int fd[2][2], int here_pipe[2]);
+void	here_doc(t_arg *arg, int here_pipe[2]);
 void	ft_free_arg(t_arg *arg);
 void	wait_pid(t_arg *arg, int i);
 void	ft_close(int fd[2][2], int here[2]);
 void	check_fd(int fd);
-void	exe_cmd(t_arg *arg);
+void	initialized_pipe(t_arg *arg);
 void	split_path(t_arg *arg, char **envp);
 void	ft_free(t_arg *arg);
 void	fill_cmd(t_arg *arg, char **argv);
