@@ -6,7 +6,7 @@
 /*   By: nlocusso <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 11:19:26 by nlocusso          #+#    #+#             */
-/*   Updated: 2022/11/24 18:57:49 by nlocusso         ###   ########.fr       */
+/*   Updated: 2022/11/25 11:34:07 by nlocusso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,13 +62,13 @@ void	here_doc(t_arg *arg, int here_pipe[2])
 	}
 }
 
-void	child_program(int cnt, t_arg *arg, int fd[2][2])
+void	child_program(int cnt, t_arg *arg, int fd[2][2], int here_pipe[2])
 {
 	if (cnt == 0)
 	{
 		if (arg->fd[0] == -1)
 		{
-			ft_close(fd);
+			ft_close(fd, here_pipe);
 			ft_free(arg);
 			exit(EXIT_FAILURE);
 		}
@@ -88,12 +88,12 @@ void	child_program(int cnt, t_arg *arg, int fd[2][2])
 		dup2(fd[(cnt + 1) % 2][0], 0);
 		dup2(fd[cnt % 2][1], 1);
 	}
-	ft_close(fd);
+	ft_close(fd, here_pipe);
 	execve(arg->nb_cmd[cnt].path, arg->nb_cmd[cnt].cmd, arg->env);
 	exit(EXIT_FAILURE);
 }
 
-void	create_pipe(t_arg *arg, int cnt, int fd[2][2])
+void	create_pipe(t_arg *arg, int cnt, int fd[2][2], int here_pipe[2])
 {
 	if (cnt >= 2)
 	{
@@ -109,7 +109,7 @@ void	create_pipe(t_arg *arg, int cnt, int fd[2][2])
 		if (arg->pid[cnt] < 0)
 			print_error(3, arg, NULL);
 		else if (arg->pid[cnt] == 0)
-			child_program(cnt, arg, fd);
+			child_program(cnt, arg, fd, here_pipe);
 	}
 	else
 		arg->pid[cnt] = -1;
@@ -136,12 +136,12 @@ void	exe_cmd(t_arg *arg)
 	here_doc(arg, here_pipe);
 	while (cnt != arg->nb_exe)
 	{
-		create_pipe(arg, cnt, fd);
+		create_pipe(arg, cnt, fd, here_pipe);
 		if (arg->nb_cmd[cnt].path == NULL && cnt == arg->nb_exe - 1)
 			return ;
 		cnt++;
 	}
-	ft_close(fd);
+	ft_close(fd, here_pipe);
 	wait_pid(arg, i);
 	check_fd(arg->fd[0]);
 	check_fd(arg->fd[1]);

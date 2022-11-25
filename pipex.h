@@ -6,7 +6,7 @@
 /*   By: nlocusso <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 11:21:31 by nlocusso          #+#    #+#             */
-/*   Updated: 2022/11/24 13:05:46 by nlocusso         ###   ########.fr       */
+/*   Updated: 2022/11/25 11:03:02 by nlocusso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ typedef struct s_arg
 
 void	ft_free_arg(t_arg *arg);
 void	wait_pid(t_arg *arg, int i);
-void	ft_close(int fd[2][2]);
+void	ft_close(int fd[2][2], int here[2]);
 void	check_fd(int fd);
 void	exe_cmd(t_arg *arg);
 void	split_path(t_arg *arg, char **envp);
