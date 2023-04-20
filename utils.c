@@ -6,7 +6,7 @@
 /*   By: nlocusso <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 11:30:55 by nlocusso          #+#    #+#             */
-/*   Updated: 2022/11/25 14:00:22 by nlocusso         ###   ########.fr       */
+/*   Updated: 2022/11/28 10:31:57 by nlocusso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ void	put_error(t_arg *arg, t_cmd *cmd, int nb_cmd)
 	else if (nb_cmd != 0 && nb_cmd != arg->nb_exe - 1)
 		print_error(0, arg, cmd->cmd[0]);
 	else if (nb_cmd == arg->nb_exe - 1 && access(arg->last, W_OK) != -1)
+		print_error(0, arg, cmd->cmd[0]);
+	else if (arg->cmd == 1)
 		print_error(0, arg, cmd->cmd[0]);
 }
 

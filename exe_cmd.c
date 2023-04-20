@@ -6,7 +6,7 @@
 /*   By: nlocusso <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 11:19:26 by nlocusso          #+#    #+#             */
-/*   Updated: 2022/11/25 14:00:35 by nlocusso         ###   ########.fr       */
+/*   Updated: 2022/11/27 15:34:49 by nlocusso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,19 +66,22 @@ void	child_program(int cnt, t_arg *arg, int fd[2][2], int here_pipe[2])
 {
 	if (cnt == 0)
 	{
-		if (arg->fd[0] == -1)
+		if (arg->cmd != 1 && arg->fd[0] == -1)
 		{
 			ft_close(fd, here_pipe);
 			ft_free(arg);
 			exit(EXIT_FAILURE);
 		}
-		dup2(fd[0][1], 1);
-		dup2(arg->fd[0], 0);
+		if (arg->cmd != 1)
+			dup2(arg->fd[0], 0);
+		if (arg->nb_exe != 1)
+			dup2(fd[0][1], 1);
 	}
 	else if (cnt == arg->nb_exe - 1)
 	{
 		dup2(fd[(cnt + 1) % 2][0], 0);
-		dup2(arg->fd[1], 1);
+		if (arg->cmd != 1)
+			dup2(arg->fd[1], 1);
 	}
 	else
 	{
@@ -92,7 +95,8 @@ void	child_program(int cnt, t_arg *arg, int fd[2][2], int here_pipe[2])
 
 void	create_pipe(t_arg *arg, int cnt, int fd[2][2], int here_pipe[2])
 {
-	if (cnt == arg->nb_exe - 1 && access(arg->last, W_OK) == -1)
+	if (arg->cmd == 0 && cnt == arg->nb_exe - 1
+		&& access(arg->last, W_OK) == -1)
 	{
 		print_error(4, arg, NULL);
 		return ;

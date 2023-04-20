@@ -6,7 +6,7 @@
 /*   By: nlocusso <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 15:14:57 by nlocusso          #+#    #+#             */
-/*   Updated: 2022/11/25 13:53:27 by nlocusso         ###   ########.fr       */
+/*   Updated: 2022/11/27 15:29:53 by nlocusso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,17 +26,22 @@ void	initialized_f(t_arg *arg, int argc, char **argv, char **env)
 	{
 		arg->nb_exe = argc - 4;
 		arg->limiter = argv[2];
-		arg->pid = ft_calloc(arg->nb_exe, sizeof(int));
 		arg->nb_cmd = ft_calloc(argc - 2, sizeof(t_cmd));
 		arg->fd[0] = 0;
 	}
-	else
+	else if (arg->cmd == 0)
 	{
 		arg->nb_exe = argc - 3;
-		arg->pid = ft_calloc(arg->nb_exe, sizeof(int));
 		arg->nb_cmd = ft_calloc(argc - 2, sizeof(t_cmd));
 		arg->fd[0] = open(argv[1], O_RDONLY);
 	}
+	else if (arg->cmd == 1)
+	{
+		arg->nb_exe = argc - 1;
+		arg->nb_cmd = ft_calloc(argc - 1, sizeof(t_cmd));
+		arg->fd[0] = -1;
+	}
+	arg->pid = ft_calloc(arg->nb_exe, sizeof(int));
 }
 
 void	initialized_pipe(t_arg *arg)

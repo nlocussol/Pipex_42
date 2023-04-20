@@ -6,7 +6,7 @@
 /*   By: nlocusso <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 11:19:52 by nlocusso          #+#    #+#             */
-/*   Updated: 2022/11/25 13:57:21 by nlocusso         ###   ########.fr       */
+/*   Updated: 2022/11/27 14:53:42 by nlocusso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	wait_pid(t_arg *arg, int i)
 	int	status;
 
 	cnt = 0;
+	status = 0;
 	while (cnt != i)
 	{
 		if (arg->pid[cnt] != -1)
@@ -61,12 +62,12 @@ int	main(int argc, char *argv[], char *env[])
 	t_arg	*arg;
 	int		exit_code;
 
-	if (argc < 5)
-	{
-		write(2, "Error\n", 6);
-		exit(EXIT_FAILURE);
-	}
+	if (argc == 1)
+		return (0);
 	arg = malloc(sizeof(t_arg));
+	arg->cmd = 0;
+	if (argc <= 3)
+		arg->cmd = 1;
 	arg->here_doc = 0;
 	if (!ft_strcmp(argv[1], "here_doc"))
 		arg->here_doc = 1;
